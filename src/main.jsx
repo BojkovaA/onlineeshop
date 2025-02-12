@@ -4,11 +4,25 @@ import './index.css'
 import AppLayout from './AppLayout.jsx'
 import { RouterProvider } from 'react-router-dom'
 
+
+
 //router
 import { createBrowserRouter } from 'react-router-dom'
 
+//redux
+import store from './store/store.js'
+import { Provider } from 'react-redux'
+
 //pages
 import HomePage from './pages/HomePage.jsx'
+
+//import your publish key
+import { ClerkProvider} from '@clerk/clerk-react' 
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error('Add your Clerk Publishable Key to the .env.local file')
+}
 
 const router = createBrowserRouter([
   {
@@ -26,6 +40,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+        <RouterProvider router={router} />
+      </ClerkProvider>
+    </Provider>
   </StrictMode>,
 )
