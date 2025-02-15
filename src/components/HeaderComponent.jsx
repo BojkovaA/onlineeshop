@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 //icons
 import { CiLocationOn, CiDeliveryTruck } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
@@ -8,7 +9,7 @@ function HeaderComponent({setActiveHeader}) {
 
 
     return (
-        <div className="flex items-center justify-between container mx-auto 
+        <div className="flex items-center justify-between container mx-auto max-w-7xl
         h-[80px] flex-col lg:flex-row py-[10px]">
             <p>Need help? Call us: <a className="text-blue-500" href="tel:+98 0234 456 789">(+98) 0234 456 789</a></p>
             {/*right side*/}

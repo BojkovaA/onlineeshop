@@ -29,7 +29,7 @@ function CategoryComponent() {
 
     return ( 
         <div className="bg-lightGray h-[100%] py-[20px]  flex items-center">
-            <div className=" container mx-auto flex items-center gap-[20px] h-full flex-col lg:flex-row">
+            <div className=" container mx-auto max-w-7xl flex items-center gap-[20px] h-full flex-col lg:flex-row">
                 <button  className="bg-mainBlue px-[20px] py-[10px] text-textWhite rounded-lg"
                 onClick={handleToggleCateory}>Show Category</button>
                 {isLoading ? <div>

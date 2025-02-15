@@ -20,8 +20,10 @@ function HomePage() {
     },[])
 
     return (
-        <div>
-            {isLoading ? <div>
+        <div className="container mx-auto">
+            <div>List/ Grid View</div>
+            {isLoading ? 
+            <div className="flex flex-wrap items-center justify-center gap-[10px]">
                 {allProducts.map((product)=> {
                     return (
                         <CardComponent key={product.id} product={product}/>

@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 
 //pages
 import HomePage from './pages/HomePage.jsx'
+import SingleProductPage from './pages/SingleProductPage.jsx'
 
 //import your publish key
 import { ClerkProvider} from '@clerk/clerk-react' 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage/>
+      },
+      {
+        path: '/singleProduct/:id',
+        element: <SingleProductPage/>
       }
     ]
   }

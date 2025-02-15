@@ -7,14 +7,17 @@ import { CiUser, CiHeart, CiShoppingCart } from "react-icons/ci";
 
 //clerk
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 
 
 function NavbarComponent() {
     return (
         <div className="bg-mainBlue h-full lg:h-[100px] flex items-center py-[10px] " >
-            <div className="container mx-auto flex justify-between items-center flex-col lg:flex-row gap-[10px]">
+            <div className="container mx-auto max-w-7xl flex justify-between items-center flex-col lg:flex-row gap-[10px]">
+                <Link to="/">
                 <img src={logo} alt="logo-image" />
+                </Link>
 
                 {/*search bar*/}
                 <div className="bg-textWhite rounded-[20px]">
