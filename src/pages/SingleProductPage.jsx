@@ -1,13 +1,14 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState  } from "react";
 import ProductService from "../services/ProductService";
 import { Rating } from "@mui/material";
-
+import { saveInCartAction } from "../store/CartSlice";
 //icons
 import { FaCheck } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { FaRegHeart } from "react-icons/fa";
 import { FaTruckFast } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
 
 
 
@@ -21,6 +22,9 @@ function SingleProductPage(){
     const {id} = useParams();
     console.log(id);
 
+    //dispatch for redux
+    const dispatch = useDispatch();
+
     useEffect(()=>{
         ProductService.getSingleProductService(id).
         then((res)=>{console.log(res.data)
@@ -32,6 +36,12 @@ function SingleProductPage(){
 
     function handleImageClick(index){
         setCurrentImg(index)
+    }
+
+
+    //Function toput product to cart
+    function handleProductCart(){
+        dispatch(saveInCartAction(singleProdcut))
     }
 
     return( 
@@ -80,7 +90,8 @@ function SingleProductPage(){
                     </div>
 
                     <div className="flex items-center gap-[10px] mt-[30px]">
-                        <button className="bg-mainYellow text-textWhite py-[12px] px-[16px] rounded-lg">Add to Cart</button>
+                        <Link to={'/cart'} className="bg-mainYellow text-textWhite py-[12px] px-[16px] rounded-lg"
+                        onClick={handleProductCart}>Add to Cart</Link>
                         <div className="bg-[#EEE] p-[10px] rounded-full">
                             <FaRegHeart size={30} />
                         </div>
