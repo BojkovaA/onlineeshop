@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState  } from "react";
+import { useSelector } from "react-redux";
 import ProductService from "../services/ProductService";
 import { Rating } from "@mui/material";
 import { saveInCartAction } from "../store/CartSlice";
@@ -9,15 +10,20 @@ import { RxCross2 } from "react-icons/rx";
 import { FaRegHeart } from "react-icons/fa";
 import { FaTruckFast } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
+import { updateFavoriteAction } from "../store/FavoriteSlice";
 
 
 
 function SingleProductPage(){
 
+    const [favoriteIdIcon, setFavoriteIdIcon] = useState(null);
     const [singleProdcut, setSingleProduct] = useState({});
     const [isLoading, setIsLoading] = useState(false)
     const [currentImg, setCurrentImg] = useState(0);
     const [quantity, setQuantity] = useState(1);
+
+
+    const {allFavorite} = useSelector((state)=>state.favoriteStore)
 
     const {id} = useParams();
     console.log(id);
@@ -32,6 +38,19 @@ function SingleProductPage(){
             setIsLoading(true)
         }).catch((err)=>console.log(err))
     },[])
+
+    useEffect(()=>{
+        if(allFavorite.length === 0){
+        allFavorite.find((item)=>{
+            if(item.id === singleProdcut.id){
+                setFavoriteIdIcon(item.id)  
+                return
+            }
+        }
+        )}else{
+            setFavoriteIdIcon(null);
+        }
+    }, [allFavorite])
 
 
     function handleImageClick(index){
@@ -93,7 +112,10 @@ function SingleProductPage(){
                         <Link to={'/cart'} className="bg-mainYellow text-textWhite py-[12px] px-[16px] rounded-lg"
                         onClick={handleProductCart}>Add to Cart</Link>
                         <div className="bg-[#EEE] p-[10px] rounded-full">
-                            <FaRegHeart size={30} />
+                            {favoriteIdIcon === parseInt(id) ?
+                                <FaRegHeart style={{color: 'red'}} color='red' size={30} onClick={()=> dispatch(updateFavoriteAction(singleProdcut))} /> :                                
+                                <FaRegHeart size={30} onClick={()=> dispatch(updateFavoriteAction(singleProdcut))} />
+}
                         </div>
                     </div> 
                     <hr className="my-[20px]"></hr>
