@@ -10,16 +10,21 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-reac
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { saveSearchProductAction } from "../store/ProductSlice";
 
 
 
 function NavbarComponent() {
 
     const {totalProduct} = useSelector(state=> state.cartStore);
+    const [searchProducts, setSearchProducts] = useState('');
     const [totalProductLs, setTotalProductLs] = useState();
 
     const {favoriteTotal} = useSelector(state=> state.favoriteStore);
+
+
+    const dispatch = useDispatch();
 
     //let totalProduct = JSON.parse(localStorage.getItem('cart_total'));
 
@@ -32,6 +37,12 @@ function NavbarComponent() {
         }
     },[totalProduct])
 
+    function handleSearchProducts(){
+        //console.log(searchProducts);
+        dispatch(saveSearchProductAction(searchProducts));
+        setSearchProducts('');
+    }
+
 
     return (
         <div className="bg-mainBlue h-full lg:h-[100px] flex items-center py-[10px] " >
@@ -42,9 +53,10 @@ function NavbarComponent() {
 
                 {/*search bar*/}
                 <div className="bg-textWhite rounded-[20px]">
-                    <input type="text" placeholder="Search.." 
+                    <input type="text" placeholder="Search.."  value={searchProducts} onChange={()=>setSearchProducts(event.target.value)}
                     className="bg-transparent outline-none px-[30px] py-[15px] rounded-[20px] placeholder:text-mainYellow text-mainBlue"/>
-                    <button className="bg-mainYellow px-[30px] py-[15px] rounded-[20px] text-textWhite">Search</button>
+                    <button className="bg-mainYellow px-[30px] py-[15px] rounded-[20px] text-textWhite"
+                    onClick={handleSearchProducts}>Search</button>
                 </div>
 
                 {/*loginSystem and Cart/Favorites*/}    

@@ -3,7 +3,7 @@ import CategoryService from "../services/CategoryService";
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { saveAllCategoryAction } from "../store/CategorySlice";
-
+import {saveSelectCategoryAction} from '../store/ProductSlice'
 function CategoryComponent() {
 
     const [toggleCategory, setToggleCategory] = useState(false);
@@ -34,15 +34,28 @@ function CategoryComponent() {
                 onClick={handleToggleCateory}>Show Category</button>
                 {isLoading ? <div>
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[5px]">
-                    {toggleCategory &&
-                    allCategory.map((cat, index) => {
-                        return <li key={index} className="w-[200px] bg-mainBlue text-textWhite text-center rounded-lg px-[16px] py-[8px] hover:bg-mainYellow transition-all duration-500 cursor-pointer    ">{cat}</li>
-                    })
-                    }
-                    </ul>
-                    </div> : <div>Loading category</div>}
-
-            </div>
+            {toggleCategory && (
+              <>
+                <li
+                  className="w-[200px] bg-mainBlue text-textWhite text-center rounded-lg px-[16px] py-[8px] hover:bg-mainYellow transition-all duration-500 cursor-pointer"
+                  onClick={() => dispatch(saveSelectCategoryAction(""))}
+                >
+                  All Category
+                </li>
+                {allCategory.map((cat, index) => (
+                  <li
+                    key={index}
+                    className="w-[200px] bg-mainBlue text-textWhite text-center rounded-lg px-[16px] py-[8px] hover:bg-mainYellow transition-all duration-500 cursor-pointer"
+                    onClick={() => dispatch(saveSelectCategoryAction(cat))}
+                  >
+                    {cat}
+                  </li>
+                ))}
+              </>
+            )}
+          </ul> 
+        </div> : <div>Loading category</div>}
+        </div>
         </div>
     )
 }

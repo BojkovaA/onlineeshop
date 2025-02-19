@@ -8,15 +8,18 @@ import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
 import {useDispatch} from 'react-redux';
 import {deleteFromCartAction, setPriceHandlerAction} from '../store/CartSlice'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 
 function CartPage() {
 
     const [cartData, setCartData] = useState([]);
     const {cart, totalPrice} = useSelector(state=> state.cartStore);
+    const [activeCode, setActiveCode] = useState(null); 
 
     const dispatch = useDispatch();
 
+
+    const copounRef = useRef();
 
     useEffect(()=>{
         setCartData(JSON.parse(localStorage.getItem('cartItem')))
@@ -25,6 +28,12 @@ function CartPage() {
 
     function handleRemoveProduct(product){
         dispatch(deleteFromCartAction(product))
+    }
+
+    function handleApplyCoupon(){
+        setActiveCode(copounRef.current.value);
+
+        copounRef.current.value = '';
     }
 
     return (
@@ -80,8 +89,24 @@ function CartPage() {
             </TableContainer>
 
             <div className='w-full lg:w-[30%]'>
-                <h2>Cart Total</h2>
-                <span>${totalPrice}</span>
+                <h2 className='text-white bg-mainBlue text-center py-[17px] rounded-md'>Cart Total</h2>
+                <span className='text-center font-extrabold text-[28px]'>
+                    Total Price: ${activeCode === "alpha" ? totalPrice/2 : totalPrice}</span>
+
+                <div className='flex flex-col'>
+                    <input ref={copounRef}
+                     type='text' placeholder='Coupon Code'
+                    className='p-[10px] border border-grayColor rounded-lg placeholder:text-mainBlue outline-none mt-[25px]'
+                    //value={activeCode} // onChange={(e) => setActiveCode(e.target.value)} 
+                    />
+                    
+                    <span className='text-[13px] text-grayColor'>Insert copun for 50% discount</span>
+                    <button className={activeCode === 'alpha' ? 'bg-grayColor text-black hover:bg-gray-500 px-[15px] py-[7px] transition-all duration-300 cursor-pointer rounded-lg mt-[30px] line-through'
+ : 'bg-mainBlue text-textWhite hover:bg-mainYellow px-[15px] py-[7px] transition-all duration-300 cursor-pointer rounded-lg mt-[30px]'
+}                    onClick={handleApplyCoupon}
+                    disabled={activeCode === 'alpha' ? true: false  }>Apply Copount</button>
+                </div>
+
             </div>
 
             </div>

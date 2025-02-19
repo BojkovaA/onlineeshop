@@ -69,7 +69,7 @@ function SingleProductPage(){
                 {/*Left Side*/}
                 <div className="w-full lg:w-[50%] flex flex-col items-center">
                     <img src={singleProdcut.images[currentImg]} className="max-h-[400px] "/>
-                    <div className="flex items-center justify-between gap-[20px] w-[50%] mx-auto">
+                    <div className="flex items-center justify-center gap-[20px]  mx-auto flex-wrap">
                         {singleProdcut.images.map((el, index)=>{
                             return <img src={el} alt="" key={index} 
                             className={
